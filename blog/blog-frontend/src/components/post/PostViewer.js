@@ -37,7 +37,7 @@ const Tags = styled.div`
         margin-right: 0.5rem;
 
         &:hover {
-            color: ${palette.cyan[4]};
+            color: ${palette.cyan[5]};
         }
     }
 `;

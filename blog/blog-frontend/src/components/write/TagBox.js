@@ -93,7 +93,7 @@ const TagBox = ({ onChangeTags, tags }) => {
             setLocalTags(nextTags); 
             onChangeTags(nextTags);
         },
-        [localTags],
+        [localTags, onChangeTags],
     );
 
     const onChange = useCallback(e => {
