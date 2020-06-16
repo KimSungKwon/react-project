@@ -5,7 +5,7 @@ import Responsive from '../common/Responsive';
 import Tags from '../common/Tags';
 import SubInfo from '../common/SubInfo';
 
-const PostViewrBlock = styled.div`
+const PostViewrBlock = styled(Responsive)`
     margin-top: 4rem;
 `;
 const PostHead = styled.div`

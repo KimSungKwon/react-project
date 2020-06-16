@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { readPost, unloadPost } from '../../modules/post';
 import PostViewer from '../../components/post/PostViewer';
 
-const PostViwerContainer = ({ match }) => {
+const PostViewerContainer = ({ match }) => {
     const { postId } = match.params;
     const dispatch = useDispatch();
     const { post, error, loading } = useSelector(({ post, loading }) => ({
@@ -24,4 +24,4 @@ const PostViwerContainer = ({ match }) => {
     return <PostViewer post={post} loading={loading} error={error} />;
 };
 
-export default withRouter(PostViwerContainer);
+export default withRouter(PostViewerContainer);

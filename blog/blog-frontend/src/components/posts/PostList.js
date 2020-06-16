@@ -7,11 +7,11 @@ import SubInfo from '../common/SubInfo';
 import Tags from '../common/Tags';
 import { Link } from 'react-router-dom';
 
-const PostListBlock = styled.div`
+const PostListBlock = styled(Responsive)`
     margin-top: 3rem;
 `;
 
-const WritePostButtonWrapepr = styled.div`
+const WritePostButtonWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
     margin-bottom: 3rem;
@@ -43,13 +43,13 @@ const PostItemBlock = styled.div`
 `;
 
 const PostItem = ({ post }) => {
-    const { title, user, body, tags, publishedDate, _id } = post;
+    const { publishedDate, title, user, body, tags, _id } = post;
     return (
         <PostItemBlock>
             <h2>
                 <Link to={`/@${user.username}/${_id}`}>{title}</Link>
             </h2>
-            <SubInfo username={user.username} publishedDate={publishedDate} /> 
+            <SubInfo username={user.username} publishedDate={new Date(publishedDate)} /> 
             <Tags tags={tags} />
             <p>{body}</p>
         </PostItemBlock>
@@ -63,13 +63,13 @@ const PostList = ({ posts, loading, error, showWrittenButton }) => {
 
     return (
         <PostListBlock>
-            <WritePostButtonWrapepr>
+            <WritePostButtonWrapper>
                 {showWrittenButton && (
                     <Button cyan to="/write">
                         새 글 작성하기
                     </Button>
                 )}
-            </WritePostButtonWrapepr>
+            </WritePostButtonWrapper>
             {/* 로딩중 아니고, 포스트배열이 존재할 때 */}
             {!loading && posts && (
                 <div>
