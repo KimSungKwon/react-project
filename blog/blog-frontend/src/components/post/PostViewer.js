@@ -5,7 +5,7 @@ import Responsive from '../common/Responsive';
 import Tags from '../common/Tags';
 import SubInfo from '../common/SubInfo';
 
-const PostViewrBlock = styled(Responsive)`
+const PostViewerBlock = styled(Responsive)`
     margin-top: 4rem;
 `;
 const PostHead = styled.div`
@@ -27,30 +27,30 @@ const PostViewer = ({ post, error, loading }) => {
     // 에러 발생
     if (error) {
         if (error.response && error.response.status === 404) {
-            return <PostViewrBlock>존재하지 않는 포스트입니다.</PostViewrBlock>;
+            return <PostViewerBlock>존재하지 않는 포스트입니다.</PostViewerBlock>;
         }
-        return <PostViewrBlock>오류 발생</PostViewrBlock>
+        return <PostViewerBlock>오류 발생</PostViewerBlock>
     }
     // 로딩 중 이거나 아직 포스트 데이터가 없을 때 
     if (loading || !post) {
         return null;
     }
 
-    const { title, body, user, publishedDate, tags } = post; 
+    const { title, body, user, publishdDate, tags } = post; 
 
     return (
-        <PostViewrBlock>
+        <PostViewerBlock>
             <PostHead>
                 <h1>{title}</h1>
                 <SubInfo 
                     username={user.username}
-                    publishedDate={publishedDate}
+                    publishdDate={publishdDate}
                     hasMarginTop
                 />
                 <Tags tags={tags} />
             </PostHead>
             <PostContent dangerouslySetInnerHTML={{ __html: body }} />
-        </PostViewrBlock>
+        </PostViewerBlock>
     );
 };
 
