@@ -1,6 +1,7 @@
 import Post from '../../models/post';   // 모델 
 import mongoose from 'mongoose';    // ObjectId 검증
 import Joi from '@hapi/joi';        // Request Body 검증
+// import Joi from 'joi';
 import sanitizeHtml from 'sanitize-html';   // HTML 필터링
 
 const { ObjectId } = mongoose.Types;
@@ -46,11 +47,11 @@ export const getPostById = async (ctx, next) => {
         ctx.state.post = post;  // id로 포스트를 찾은 후 ctx.state 에 담아 둠
         return next();
     } catch (e) {
-        ctx.throw(500,e);
+        ctx.throw(500, e);
     }
 };
 
-export const checkOwnPost = async (ctx, next) => {
+export const checkOwnPost = (ctx, next) => {
     const { user, post } = ctx.state;
     if (post.user._id.toString() !== user.id) {
         ctx.status = 403;
@@ -114,47 +115,47 @@ const removeHtmlAndShorten = body => {
 };
 
 export const list = async ctx => {
-    // query는 문자열이어서 숫자로 변환해야 함
-    // default는 1
+    // query 는 문자열이기 때문에 숫자로 변환해주어야합니다.
+    // 값이 주어지지 않았다면 1 을 기본으로 사용합니다.
     const page = parseInt(ctx.query.page || '1', 10);
-    if (page < 1) { 
-        ctx.status = 400;
-        return;
+  
+    if (page < 1) {
+      ctx.status = 400;
+      return;
     }
-
+  
     const { tag, username } = ctx.query;
-    // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 안넣음
+    // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음
     const query = {
-        ...(username ? { 'user.username': username } : {}),
-        ...(tag ? { tags: tag } : {})
+      ...(username ? { 'user.username': username } : {}),
+      ...(tag ? { tags: tag } : {}),
     };
-        
+  
     try {
-        const posts = await Post.find(query)
-        .sort({ _id: -1 })  // 역순으로 정렬
-        .limit(10)          // 보이는 개수 제한
-        .skip((page - 1) * 10)  // 페이지 기능 구현
-        .lean() // lean 함수로 데이터를 처음부터 JSON 형태로 조회 (내용길이 제한)
+      const posts = await Post.find(query)
+        .sort({ _id: -1 })
+        .limit(10)
+        .skip((page - 1) * 10)
+        .lean()
         .exec();
-        // 마지막 페이지 번호 알려주기
-        const postCount = await Post.countDocuments(query).exec();
-        ctx.set('Last-page', Math.ceil(postCount / 10));
-        // 내용 길이 제한
-        ctx.body = posts.map(post => ({
-                ...post,
-                body: removeHtmlAndShorten(post.body),
-            }));
+      const postCount = await Post.countDocuments(query).exec();
+      ctx.set('Last-Page', Math.ceil(postCount / 10));
+      ctx.body = posts.map(post => ({
+        ...post,
+        body: removeHtmlAndShorten(post.body),
+      }));
     } catch (e) {
-        ctx.throw(500, e);
+      ctx.throw(500, e);
     }
-};
+  };
 
 /*특정 포스트 조회
 GET /api/posts/:id
 */
 export const read = async ctx => {
-    ctx.body = ctx.status.post;
+  ctx.body = ctx.state.post;
 };
+
 
 /* 특정 포스트 제거
 DEL /api/posts/:id
