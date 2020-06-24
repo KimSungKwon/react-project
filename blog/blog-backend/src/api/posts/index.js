@@ -16,4 +16,4 @@ posts.get('/:id', postsCtrl.read);
 posts.patch('/:id', checkLoggedIn, postsCtrl.checkOwnPost, postsCtrl.update);
 
 // 라우터 내보내기
-export default posts;   
+export default posts;  

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 import PostListPage from './pages/PostListPage';
 import LoginPage from './pages/LoginPage';
@@ -10,6 +11,9 @@ import PostPage from './pages/PostPage';
 const  App = () => {
   return (
     <>
+      <Helmet>
+        <title>REACTERS</title>
+      </Helmet>
       <Route component={PostListPage} path={['/@:username', '/']} exact />
       <Route component={LoginPage} path="/login" />
       <Route component={RegisterPage} path="/register" />

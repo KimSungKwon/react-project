@@ -10,6 +10,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga'; // 768p
 import rootReducer, { rootSaga } from './modules/index'; // Saga: 768p
 import { tempSetUser, check } from './modules/user';
+import { HelmetProvider } from 'react-helmet-async';  // meta태그 설정
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -35,7 +36,9 @@ loadUser();
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
+          <HelmetProvider>
             <App />
+          </HelmetProvider>
         </BrowserRouter>
     </Provider>,
     document.getElementById('root'),

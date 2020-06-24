@@ -61,6 +61,13 @@ const Editor = ({ onChangeField, title, body }) => {
         });
     }, [onChangeField]);
 
+    const mounted = useRef(false);
+    useEffect(() => {
+        if (mounted.current) return;
+        mounted.current = true;
+        quillInstance.current.root.innerHTML = body;
+    }, [body]);
+
     const onChangeTitle = e => {
         onChangeField({ key: 'title', value: e.target.value }); // title의 값을 e.target.value로 (title인풋에 써진대로)
     };
